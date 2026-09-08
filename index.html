@@ -113,7 +113,7 @@ input:focus,select:focus{
 input.invalido,select.invalido{border-color:var(--erro)}
 .erro-campo{display:none;color:var(--erro);font-size:12.5px;margin-top:5px}
 .erro-campo.visivel{display:block}
-.dica{font-size:12.5px;color:#9a938b;margin-top:5px}
+.dica{font-size:12.5px;color:#9a938b;margin-top:6px}
 
 .aviso-idade{
   display:flex;gap:8px;align-items:flex-start;
@@ -212,12 +212,8 @@ button:focus-visible{outline:3px solid rgba(167,142,120,.5);outline-offset:2px}
             <select id="hospedes" name="hospedes">
               <option value="1">1 hóspede</option>
               <option value="2" selected>2 hóspedes</option>
-              <option value="3">3 hóspedes</option>
-              <option value="4">4 hóspedes</option>
-              <option value="5">5 hóspedes</option>
-              <option value="6">6 hóspedes</option>
             </select>
-            <div class="dica" id="dicaQuartos"></div>
+            <div class="dica">Limite de 2 hóspedes por acomodação.</div>
           </div>
 
           <div class="campo cheio">
@@ -314,26 +310,6 @@ $('checkin').addEventListener('change', function () {
   $('checkout').min = minSaida;
   if (!$('checkout').value || $('checkout').value <= this.value) $('checkout').value = minSaida;
 });
-
-/* ---------- quartos ----------
-   Cada acomodação da Umbelina recebe no máximo 2 hóspedes
-   ("Máximo 2 adulto(s) por acomodação" no motor de reservas).
-   Acima disso a busca precisa pedir mais de um quarto. */
-const MAX_POR_QUARTO = 2;
-
-function quartosNecessarios(hospedes) {
-  return Math.ceil(hospedes / MAX_POR_QUARTO);
-}
-
-function atualizarDicaQuartos() {
-  const n = parseInt($('hospedes').value, 10) || 2;
-  const q = quartosNecessarios(n);
-  $('dicaQuartos').textContent = q > 1
-    ? 'Cada acomodação recebe até 2 hóspedes — buscaremos ' + q + ' quartos.'
-    : '';
-}
-$('hospedes').addEventListener('change', atualizarDicaQuartos);
-atualizarDicaQuartos();
 
 /* ---------- telefone ---------- */
 function soDigitos(v) { return String(v || '').replace(/\D/g, ''); }
